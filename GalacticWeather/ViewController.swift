@@ -16,32 +16,32 @@ import UIKit
 //    let temp: Double
 //}
 
-//main response
-struct OpenWeatherResponse : Codable {
-    let main: [String: Double]
-//    let coord: [String: String]
-    //let weather: [WeatherArr]
-    //let main: [MainData]
-}
+////main response
+//struct OpenWeatherResponse : Codable {
+//    let main: [String: Double]
+////    let coord: [String: String]
+//    //let weather: [WeatherArr]
+//    //let main: [MainData]
+//}
 
-struct MainDict : Codable {
-    let temp: Double?
-    let temp_min: Double?
-    let temp_max: Double?}
-
-struct CoordDict:Decodable {
-    let lon: Double?
-    let lat: Double?}
-
-struct WeatherArr:Decodable {
-    let id: Int?
-    let main: String?
-    let description: String?
-    let icon: String?}
-
-struct WindDict:Decodable {
-    let speed:Double?
-    let deg:Double?}
+//struct MainDict : Codable {
+//    let temp: Double?
+//    let temp_min: Double?
+//    let temp_max: Double?}
+//
+//struct CoordDict:Decodable {
+//    let lon: Double?
+//    let lat: Double?}
+//
+//struct WeatherArr:Decodable {
+//    let id: Int?
+//    let main: String?
+//    let description: String?
+//    let icon: String?}
+//
+//struct WindDict:Decodable {
+//    let speed:Double?
+//    let deg:Double?}
 
 
 class ViewController: UIViewController, UISearchBarDelegate {
@@ -92,9 +92,10 @@ class ViewController: UIViewController, UISearchBarDelegate {
                         let decoder = JSONDecoder()
                         
                         do {
-                            let openWeatherResponse = try decoder.decode(OpenWeatherResponse.self, from: actualData)
-                            print(openWeatherResponse)
+                            let location = try decoder.decode(Location.self, from: actualData)
+                            print(location)
                             
+                            //WE WHERE HERE
 //                            var d
 //                            for(temp, actualTemp) in openWeatherResponse {
 //                                print(\(actualTemp))
@@ -158,14 +159,13 @@ class ViewController: UIViewController, UISearchBarDelegate {
 }
 
 
+
+
 //Test this
 //https://stackoverflow.com/questions/46636533/json-parsing-in-swift-4-with-complex-nested-data
 //https://stackoverflow.com/questions/49601788/creating-a-list-from-nested-json-using-decodable-in-swift-4
 
-
-
-////API search for temp in Celsius via searchBar and from Open WeatherAPI
-////This is the tower of doom code without decodable from Swift 4
+////API json parsing, example without codable
 //func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //    print("Search button/enter pressed")
 //
@@ -219,6 +219,62 @@ class ViewController: UIViewController, UISearchBarDelegate {
 //                    } catch {
 //                        print("Failed to parse json")
 //                    }
+//
+//                } else {
+//                    print("Data was nil")
+//                }
+//            }
+//        })
+//
+//        task.resume()
+//
+//    } else {
+//        print("Bad URL")
+//    }
+//
+//
+//}
+
+
+
+
+//Prints main with Codable
+//func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//    print("Search button/enter pressed")
+//
+//    //Double if let in begginning, %20% for space in search
+//
+//    if let safeString = searchBar.text!.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+//        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(safeString)&format=json&pretty=1&appid=a46f63c4899f9a64dc67f7114b104f2b") {
+//
+//        let request = URLRequest(url: url)
+//        let task = URLSession.shared.dataTask(with: request, completionHandler:
+//        { (data : Data?, response : URLResponse?, error: Error?) in
+//            if let actualError = error {
+//                print(actualError)
+//            } else {
+//                if let actualData = data {
+//
+//
+//                    //"main" Codable, egna structer som json ser ut
+//                    let decoder = JSONDecoder()
+//
+//                    do {
+//                        let openWeatherResponse = try decoder.decode(OpenWeatherResponse.self, from: actualData)
+//                        print(openWeatherResponse)
+//
+//                        //                            var d
+//                        //                            for(temp, actualTemp) in openWeatherResponse {
+//                        //                                print(\(actualTemp))
+//                        //                            }
+//                        //This would have been nice, but not working:
+//                        //let index = openWeatherResponse.index(value(forKey: "temp"))
+//
+//
+//                    } catch let e {
+//                        print("Error parsing json: \(e)")
+//                    }
+//
 //
 //                } else {
 //                    print("Data was nil")
